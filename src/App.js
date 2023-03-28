@@ -1,12 +1,12 @@
 import './App.css';
 import { Card } from 'antd';
 import 'antd/dist/reset.css';
-import { Layout } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
+import { Link } from 'react-router-dom';
+import AnotherPage from './AnotherPage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-
-const { Header, Footer, Sider, Content } = Layout;
 function App() {
   return (
     <div style={{
@@ -20,7 +20,7 @@ function App() {
         hoverable
         bordered={true}
         style={{
-          width: '50%',
+          width: '200',
         }}
       >
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
@@ -30,8 +30,14 @@ function App() {
             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
           />
           <Space>
-          <Button  >Login</Button>
-          <Button  type="link">register</Button>
+            <Button >Login</Button>
+            <Router>
+              <Routes>
+                <Route path="/another-page" element={<AnotherPage />} />
+              </Routes>
+            </Router>
+            <Link to='/another-page' >another</Link>
+            <Button type="link">register</Button>
           </Space>
         </Space>
       </Card>
