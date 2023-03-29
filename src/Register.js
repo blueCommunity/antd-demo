@@ -6,19 +6,22 @@ import { Button, Input, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-function Login() {
+export default function Register() {
 
     const navigate = useNavigate();
+
     const [number, setNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('')
 
-    function handleClick_login() {
-        navigate('/another-page');
-        // alert(number);
-        // todo
+    function handleClick_Register() {
+        //todo
+        if (password != confirmPassword) {
+            alert("please confirm password!")
+        }
     }
-    function handleClick_register() {
-        navigate('/register')
+    function handleClick_Back() {
+        navigate('/');
     }
 
     return (
@@ -37,17 +40,24 @@ function Login() {
                 }}
             >
                 <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                    <Input value={number} 
-                    placeholder="input account number"
-                    onChange={(event) => setNumber(event.target.value)} />
-                    <Input.Password value={password} 
-                    onChange={(event) => setPassword(event.target.value)}
+                    <Input placeholder="input account number"
+                        value={number}
+                        onChange={(event) => setNumber(event.target.value)} />
+                    <Input.Password
+                        value={password}
                         placeholder="input password"
+                        onChange={(event) => setPassword(event.target.value)}
+                        iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                    />
+                    <Input.Password
+                        value={confirmPassword}
+                        placeholder="cofirm password"
+                        onChange={(event) => setConfirmPassword(event.target.value)}
                         iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                     />
                     <Space>
-                        <Button onClick={handleClick_login} >Login</Button>
-                        <Button onClick={handleClick_register} type="link">register</Button>
+                        <Button onClick={handleClick_Register} >Register</Button>
+                        <Button onClick={handleClick_Back} >Back</Button>
                     </Space>
                 </Space>
             </Card>
@@ -56,4 +66,3 @@ function Login() {
     );
 }
 
-export default Login;
