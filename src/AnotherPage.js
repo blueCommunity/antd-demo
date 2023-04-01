@@ -1,40 +1,19 @@
 import React from 'react';
 import { Tabs, Space, Table, Image, Input, Button } from 'antd';
 import { useState } from 'react';
+import axios from 'axios';
 
 function AnotherPage() {
-  return (
-    <Tabs
-      defaultActiveKey="1"
-      centered
-      items={[{
-        label: `User`,
-        key: 1,
-        children: (<div style={{ textAlign: 'center' }}>
-          <h3>jian</h3>
-        </div>),
-      },
-      {
-        label: `subscription`,
-        key: 2,
-        children: <SubscriptionArea />,
-      },
-      {
-        label: `query`,
-        key: 3,
-        children: <QueryArea />,
-      }]
-      }
-    />
-  );
-}
+
+  const [data, setData] = useState([]);
+
 
 const columns = [
   {
     title: 'title',
-    dataIndex: 'title',
+    dataIndex: 'song_name',
     key: 'title',
-    render: (text) => <a>{text}</a>,
+    render: (text) => <p>{text}</p>,
   },
   {
     title: 'artist',
@@ -51,7 +30,7 @@ const columns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <a>Remove</a>
+        <Button>Remove</Button>
       </Space>
     ),
   },
@@ -61,27 +40,46 @@ const columns = [
     render: (url) => <Image src={url} width={50} />
   }
 ];
-const data = [
-  {
-    title: '1',
-    artist: 'John Brown',
-    year: 32,
-    url: 'https://example.com/avatar.jpg'
-  },
-  {
-    title: '2',
-    artist: 'aaa Brown',
-    year: 12,
-    url: 'https://example.com/avatar.jpg'
-  },
-];
 
-function SubscriptionArea() {
-  return (<div style={{ textAlign: 'center', width: '95%', margin: '0 auto' }}>
-    <Table columns={columns} dataSource={data} />
-  </div>
-  )
+  function handleTabClick(key) {
+    if (key === 2) {
+      axios.get('https://suaomhnut5.execute-api.us-east-1.amazonaws.com/dev/test1')
+      .then(response => {
+        setData(response.data.body.items)
+      })
+      .catch(error => console.error(error));
+    }
+  }
+
+  return (
+    <Tabs onTabClick={handleTabClick}
+      defaultActiveKey="2"
+      centered
+      items={[{
+        label: `User`,
+        key: 1,
+        children: (<div style={{ textAlign: 'center' }}>
+          <h3>jian</h3>
+        </div>),
+      },
+      {
+        label: `subscription`,
+        key: 2,
+        children: (<div style={{ textAlign: 'center', width: '95%', margin: '0 auto' }}>
+        <Table columns={columns} dataSource={data} />
+      </div>),
+      },
+      {
+        label: `query`,
+        key: 3,
+        children: <QueryArea />,
+      }]
+      }
+    />
+  );
 }
+
+
 
 function QueryArea() {
 
