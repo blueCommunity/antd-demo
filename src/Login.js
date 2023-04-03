@@ -11,27 +11,31 @@ import axios from 'axios';
 function Login() {
 
     const navigate = useNavigate();
-    const [number, setNumber] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     function handleClick_login() {
-        //send a get request to verify the password correct
-        axios.get('http://localhost:8080/login', {
+        axios.get('http://124.221.171.220:8080/login', 
+        {
             params: {
-                number: number,
+                email: username,
                 password: password
             }
-        }).then((response) => {
-            console.log(response);
-            if (response.data === 'success') {
-                navigate('/another-page');
-            } else {
-                alert('wrong password');
-            }
-        }).catch((error) => {
-            console.log(error);
-        }
-        )
+        })
+            .then(function (response) {
+                console.log(response);
+                if (response.data.code === 200) {
+                    navigate('/another-page')
+                }
+                else {
+                    alert(response.data.message)
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
         
     }
 
@@ -55,12 +59,12 @@ function Login() {
                 }}
             >
                 <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                    <Input value={number} 
-                    placeholder="input account number"
-                    onChange={(event) => setNumber(event.target.value)} />
+                    <Input value={username} 
+                    placeholder="please input email"
+                    onChange={(event) => setUsername(event.target.value)} />
                     <Input.Password value={password} 
                     onChange={(event) => setPassword(event.target.value)}
-                        placeholder="input password"
+                        placeholder="please input password"
                         iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                     />
                     <Space>
