@@ -45,7 +45,12 @@ const columns = [
     if (key === 2) {
       axios.get('https://suaomhnut5.execute-api.us-east-1.amazonaws.com/dev/test1')
       .then(response => {
-        setData(response.data.body.items)
+        let items = response.data.body.items
+        let itemsCopy = items.map((item,index) => {
+          return {...item,key:item.song_name}
+        })
+        console.log(itemsCopy)
+        setData(itemsCopy)
       })
       .catch(error => console.error(error));
     }
