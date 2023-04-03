@@ -5,6 +5,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function Register() {
 
@@ -15,11 +16,32 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState('')
 
     function handleClick_Register() {
-        //todo
-        if (password != confirmPassword) {
-            alert("please confirm password!")
-        }
+        //todo verfiy the password and confirm password and send a post request to register
+        if (password !== confirmPassword) {
+            alert('password and confirm password are not the same');
+        }  else {
+            axios.post('http://localhost:8080/register', {
+                    number: number,
+                    password: password
+                })
+                .then((response) => {
+                    console.log(response);
+                    if (response.data === 'success') {
+                        navigate('/login');
+                        alert('register failed');
+                    } else {
+                        alert('register failed');
+                    }
+                }
+                )
+                .catch((error) => {
+                    console.log(error);
+                }
+                )
     }
+    }
+
+
     function handleClick_Back() {
         navigate('/');
     }

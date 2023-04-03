@@ -15,11 +15,26 @@ function Login() {
     const [password, setPassword] = useState('');
 
     function handleClick_login() {
-        navigate('/another-page');
-        // alert(number);
-        // todo
+        //send a get request to verify the password correct
+        axios.get('http://localhost:8080/login', {
+            params: {
+                number: number,
+                password: password
+            }
+        }).then((response) => {
+            console.log(response);
+            if (response.data === 'success') {
+                navigate('/another-page');
+            } else {
+                alert('wrong password');
+            }
+        }).catch((error) => {
+            console.log(error);
+        }
+        )
         
     }
+
     function handleClick_register() {
         navigate('/register')
     }
